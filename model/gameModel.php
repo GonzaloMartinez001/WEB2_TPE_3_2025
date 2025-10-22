@@ -10,23 +10,25 @@ class gameModel
     function __construct() //instanciamos conexion con la base de datos
     {
         $this->db = new PDO('mysql:host=localhost;'.'dbname='.DB_NAME.';charset=utf8', DB_USER_NAME, DB_PASSWORD);
-        $this->deploy();
+        $this->_deploy();
     }
 
     private function _deploy() {
         $query = $this->db->query('SHOW TABLES');
         $tables = $query->fetchAll();
-        if(count($tables) == 0) {
-            $sql =<<<END
-                CREATE TABLE `games` (
-              `game_ID` int(11) NOT NULL,
-              `game_name` varchar(45) NOT NULL,
-              `genre` varchar(45) NOT NULL,
-              `year` int(11) NOT NULL,
-              `score` int(11) NOT NULL,
-              `company_ID` int(11) NOT NULL
-            );
-		    END;
+
+        if (count($tables) == 0) {
+            $sql = <<<END
+CREATE TABLE `games` (
+  `game_ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `game_name` VARCHAR(45) NOT NULL,
+  `genre` VARCHAR(45) NOT NULL,
+  `year` INT(11) NOT NULL,
+  `score` INT(11) NOT NULL,
+  `company_ID` INT(11) NOT NULL,
+  PRIMARY KEY (`game_ID`)
+);
+END;
             $this->db->query($sql);
         }
     }

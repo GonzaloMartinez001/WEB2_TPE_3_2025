@@ -11,19 +11,21 @@ class companyModel
     function __construct()
     {
         $this->db = new PDO('mysql:host=localhost;'.'dbname='.DB_NAME.';charset=utf8', DB_USER_NAME, DB_PASSWORD);
-        $this->deploy();
+        $this->_deploy();
     }
 
     private function _deploy() {
         $query = $this->db->query('SHOW TABLES');
         $tables = $query->fetchAll();
-        if(count($tables) == 0) {
-            $sql =<<<END
-            CREATE TABLE `company` (
-              `company_ID` int(11) NOT NULL,
-              `company_name` varchar(45) NOT NULL
-            );
-		END;
+
+        if (count($tables) == 0) {
+            $sql = <<<SQL
+CREATE TABLE `company` (
+    `company_ID` int(11) NOT NULL,
+    `company_name` varchar(45) NOT NULL,
+    PRIMARY KEY (`company_ID`)
+);
+SQL;
             $this->db->query($sql);
         }
     }
